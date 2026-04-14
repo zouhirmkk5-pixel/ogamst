@@ -98,18 +98,21 @@ object-fit:cover;
 }
 .card-body{padding:12px;}
 .title{color:#00ffcc;font-weight:800;}
+
 .meta{
 display:flex;
 justify-content:space-between;
 font-size:12px;
 margin-top:8px;
 }
+
 .rating,.downloads{
 background:#0f172a;
 padding:5px 8px;
 border-radius:8px;
 border:1px solid #1e293b;
 }
+
 .btn{
 margin-top:10px;
 padding:10px;
@@ -121,7 +124,7 @@ background:linear-gradient(90deg,#00ffcc,#3b82f6);
 color:black;
 }
 
-/* MODAL */
+/* MODALS */
 .modal{
 position:fixed;
 inset:0;
@@ -191,18 +194,26 @@ color:#00ffcc;
 }
 
 /* IFRAME */
-iframe{
-width:100%;
-height:100%;
-border:none;
-background:white;
-}
 .frameBox{
 width:92%;
 height:92%;
 border-radius:15px;
 overflow:hidden;
 border:1px solid #00ffcc33;
+}
+iframe{
+width:100%;
+height:100%;
+border:none;
+background:white;
+}
+
+/* FOOTER */
+footer{
+text-align:center;
+opacity:0.5;
+font-size:12px;
+padding:15px;
 }
 </style>
 </head>
@@ -217,8 +228,8 @@ border:1px solid #00ffcc33;
 </nav>
 
 <div class="hero">
-<h1>🎮 OGAM STORE</h1>
-<p>Ultra Gaming Experience </p>
+<h1>OGAM STORE</h1>
+<p>Ultra Gaming Experience • 3D Neon Edition</p>
 </div>
 
 <div class="games" id="games"></div>
@@ -226,7 +237,7 @@ border:1px solid #00ffcc33;
 <!-- PLATFORM -->
 <div class="modal" id="platformModal">
   <div class="box">
-    <h3> Your phone </h3>
+    <h3>Choose your phone</h3>
 
     <button class="platform-btn android" onclick="choose('Android')">
       <i class="fa-brands fa-android"></i>
@@ -252,19 +263,23 @@ border:1px solid #00ffcc33;
   </div>
 </div>
 
-<!-- LINK INSIDE PAGE -->
+<!-- LINK -->
 <div class="modal" id="linkModal">
   <div class="frameBox">
     <iframe id="frame"></iframe>
   </div>
 </div>
 
+<footer>
+Official Gaming Store • Secure downloads & verified content<br>
+© 2026 OGAM STORE • All rights reserved
+</footer>
+
 <script>
 
 const link="https://appchecker.space/cl/i/rnnqgv";
 let current=null;
 
-/* FULL GAMES LIST */
 const games=[
 ["Spider-Man","4.9","12.4M","https://cdn.cloudflare.steamstatic.com/steam/apps/1817070/header.jpg"],
 ["GTA V","4.8","25M","https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg"],
@@ -294,7 +309,7 @@ g.innerHTML+=`
 <div class="downloads"><i class="fa fa-download"></i>${x[2]}</div>
 </div>
 
-<div class="btn" onclick="openP(${i})">Install </div>
+<div class="btn" onclick="openP(${i})">Install</div>
 </div>
 </div>
 `;
@@ -325,7 +340,7 @@ clearInterval(interval);
 
 document.getElementById("installModal").style.display="none";
 document.getElementById("linkModal").style.display="flex";
-document.getElementById("frame").src = link;
+document.getElementById("frame").src=link;
 }
 
 },25);
