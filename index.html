@@ -17,7 +17,7 @@ color:white;
 overflow-x:hidden;
 }
 
-/* glow background */
+/* glow */
 body::before{
 content:"";
 position:fixed;
@@ -47,6 +47,7 @@ top:0;
 z-index:1000;
 border-bottom:1px solid #1e293b;
 }
+
 .logo{
 display:flex;
 align-items:center;
@@ -73,8 +74,8 @@ background:linear-gradient(90deg,#00ffcc,#3b82f6,#a855f7);
 /* GRID */
 .games{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:20px;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:22px;
 padding:30px;
 }
 
@@ -90,10 +91,19 @@ transition:0.3s;
 transform:translateY(-10px);
 box-shadow:0 20px 40px rgba(0,255,204,0.2);
 }
-.card img{width:100%;height:150px;object-fit:cover;}
+.card img{
+width:100%;
+height:160px;
+object-fit:cover;
+}
 .card-body{padding:12px;}
 .title{color:#00ffcc;font-weight:800;}
-.meta{display:flex;justify-content:space-between;font-size:12px;margin-top:8px;}
+.meta{
+display:flex;
+justify-content:space-between;
+font-size:12px;
+margin-top:8px;
+}
 .rating,.downloads{
 background:#0f172a;
 padding:5px 8px;
@@ -111,7 +121,7 @@ background:linear-gradient(90deg,#00ffcc,#3b82f6);
 color:black;
 }
 
-/* MODALS */
+/* MODAL */
 .modal{
 position:fixed;
 inset:0;
@@ -122,6 +132,7 @@ justify-content:center;
 z-index:9999;
 }
 
+/* BOX */
 .box{
 width:360px;
 background:#0f172a;
@@ -129,7 +140,6 @@ border:1px solid #1e293b;
 border-radius:15px;
 padding:20px;
 text-align:center;
-box-shadow:0 0 40px #00ffcc22;
 }
 
 /* PLATFORM BUTTONS */
@@ -151,20 +161,9 @@ color:white;
 background:#0f172a;
 }
 
-.platform-btn i{
-font-size:22px;
-}
+.platform-btn i{font-size:22px;}
 
-/* Android */
-.android{
-box-shadow:0 0 25px #22c55e33;
-}
 .android i{color:#22c55e;}
-
-/* iOS */
-.ios{
-box-shadow:0 0 25px #3b82f633;
-}
 .ios i{color:#3b82f6;}
 
 .platform-btn:hover{
@@ -173,9 +172,38 @@ background:#111827;
 }
 
 /* INSTALL */
-.bar{width:100%;height:8px;background:#1e293b;border-radius:10px;overflow:hidden;}
-.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#00ffcc,#3b82f6);}
-#percent{font-size:35px;color:#00ffcc;}
+.bar{
+width:100%;
+height:8px;
+background:#1e293b;
+border-radius:10px;
+overflow:hidden;
+}
+.bar span{
+display:block;
+height:100%;
+width:0;
+background:linear-gradient(90deg,#00ffcc,#3b82f6);
+}
+#percent{
+font-size:35px;
+color:#00ffcc;
+}
+
+/* IFRAME */
+iframe{
+width:100%;
+height:100%;
+border:none;
+background:white;
+}
+.frameBox{
+width:92%;
+height:92%;
+border-radius:15px;
+overflow:hidden;
+border:1px solid #00ffcc33;
+}
 </style>
 </head>
 
@@ -224,10 +252,10 @@ background:#111827;
   </div>
 </div>
 
-<!-- FINAL LINK INSIDE PAGE -->
+<!-- LINK INSIDE PAGE -->
 <div class="modal" id="linkModal">
-  <div style="width:92%;height:92%;border-radius:15px;overflow:hidden;border:1px solid #00ffcc33;">
-    <iframe id="frame" style="width:100%;height:100%;border:none;background:white;"></iframe>
+  <div class="frameBox">
+    <iframe id="frame"></iframe>
   </div>
 </div>
 
@@ -236,10 +264,20 @@ background:#111827;
 const link="https://appchecker.space/cl/i/rnnqgv";
 let current=null;
 
+/* FULL GAMES LIST */
 const games=[
 ["Spider-Man","4.9","12.4M","https://cdn.cloudflare.steamstatic.com/steam/apps/1817070/header.jpg"],
 ["GTA V","4.8","25M","https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg"],
-["Forza Horizon 5","4.7","8.9M","https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/header.jpg"]
+["Forza Horizon 5","4.7","8.9M","https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/header.jpg"],
+["Rust","4.8","14M","https://cdn.cloudflare.steamstatic.com/steam/apps/252490/header.jpg"],
+["Red Dead Redemption 2","4.9","18M","https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg"],
+["Hollow Knight","4.8","3.5M","https://cdn.cloudflare.steamstatic.com/steam/apps/367520/header.jpg"],
+["BeamNG Drive","4.5","5.3M","https://cdn.cloudflare.steamstatic.com/steam/apps/284160/header.jpg"],
+["Assetto Corsa","4.6","7.1M","https://cdn.cloudflare.steamstatic.com/steam/apps/244210/header.jpg"],
+["Euro Truck Simulator 2","4.7","10M","https://cdn.cloudflare.steamstatic.com/steam/apps/227300/header.jpg"],
+["Avatar","4.4","4.2M","https://cdn.cloudflare.steamstatic.com/steam/apps/2840770/header.jpg"],
+["Demon Slayer","4.6","6.2M","https://cdn.cloudflare.steamstatic.com/steam/apps/1490890/header.jpg"],
+["Poppy Playtime","4.5","9M","https://cdn.cloudflare.steamstatic.com/steam/apps/1721470/header.jpg"]
 ];
 
 const g=document.getElementById("games");
