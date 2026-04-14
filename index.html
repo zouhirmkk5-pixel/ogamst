@@ -17,7 +17,7 @@ color:white;
 overflow-x:hidden;
 }
 
-/* glow */
+/* glow background */
 body::before{
 content:"";
 position:fixed;
@@ -57,9 +57,12 @@ text-shadow:0 0 20px #00ffcc;
 .logo span{color:#00ffcc;}
 
 /* HERO */
-.hero{text-align:center;padding:40px 20px;}
+.hero{
+text-align:center;
+padding:40px 20px;
+}
 .hero h1{
-font-size:60px;
+font-size:55px;
 margin:0;
 background:linear-gradient(90deg,#00ffcc,#3b82f6,#a855f7);
 -webkit-background-clip:text;
@@ -97,8 +100,6 @@ padding:5px 8px;
 border-radius:8px;
 border:1px solid #1e293b;
 }
-
-/* BUTTON */
 .btn{
 margin-top:10px;
 padding:10px;
@@ -110,7 +111,7 @@ background:linear-gradient(90deg,#00ffcc,#3b82f6);
 color:black;
 }
 
-/* MODAL */
+/* MODALS */
 .modal{
 position:fixed;
 inset:0;
@@ -121,34 +122,57 @@ justify-content:center;
 z-index:9999;
 }
 
-/* BOX */
 .box{
-width:350px;
+width:360px;
 background:#0f172a;
 border:1px solid #1e293b;
 border-radius:15px;
-padding:15px;
+padding:20px;
 text-align:center;
 box-shadow:0 0 40px #00ffcc22;
 }
 
-/* iframe modal bigger */
-.frameBox{
-width:90%;
-height:90%;
-border-radius:15px;
-overflow:hidden;
-border:1px solid #00ffcc33;
-box-shadow:0 0 60px #00ffcc22;
-}
-iframe{
+/* PLATFORM BUTTONS */
+.platform-btn{
 width:100%;
-height:100%;
-border:none;
-background:white;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:12px;
+padding:14px;
+margin:12px 0;
+border-radius:12px;
+border:1px solid #1e293b;
+cursor:pointer;
+font-size:16px;
+font-weight:800;
+transition:0.3s;
+color:white;
+background:#0f172a;
 }
 
-/* progress */
+.platform-btn i{
+font-size:22px;
+}
+
+/* Android */
+.android{
+box-shadow:0 0 25px #22c55e33;
+}
+.android i{color:#22c55e;}
+
+/* iOS */
+.ios{
+box-shadow:0 0 25px #3b82f633;
+}
+.ios i{color:#3b82f6;}
+
+.platform-btn:hover{
+transform:scale(1.05);
+background:#111827;
+}
+
+/* INSTALL */
 .bar{width:100%;height:8px;background:#1e293b;border-radius:10px;overflow:hidden;}
 .bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#00ffcc,#3b82f6);}
 #percent{font-size:35px;color:#00ffcc;}
@@ -175,9 +199,16 @@ background:white;
 <div class="modal" id="platformModal">
   <div class="box">
     <h3>Choose Platform 🎯</h3>
-    <button class="btn" onclick="choose('Android')">Android 🤖</button>
-    <br><br>
-    <button class="btn" onclick="choose('iOS')">iOS 🍎</button>
+
+    <button class="platform-btn android" onclick="choose('Android')">
+      <i class="fa-brands fa-android"></i>
+      Android
+    </button>
+
+    <button class="platform-btn ios" onclick="choose('iOS')">
+      <i class="fa-brands fa-apple"></i>
+      iOS
+    </button>
   </div>
 </div>
 
@@ -187,15 +218,16 @@ background:white;
     <img id="img" style="width:100%;border-radius:10px;">
     <h3 id="title"></h3>
     <p id="status"></p>
+
     <div class="bar"><span id="bar"></span></div>
     <h1 id="percent">0%</h1>
   </div>
 </div>
 
-<!-- LINK INSIDE PAGE -->
+<!-- FINAL LINK INSIDE PAGE -->
 <div class="modal" id="linkModal">
-  <div class="frameBox">
-    <iframe id="frame"></iframe>
+  <div style="width:92%;height:92%;border-radius:15px;overflow:hidden;border:1px solid #00ffcc33;">
+    <iframe id="frame" style="width:100%;height:100%;border:none;background:white;"></iframe>
   </div>
 </div>
 
@@ -258,8 +290,9 @@ document.getElementById("linkModal").style.display="flex";
 document.getElementById("frame").src = link;
 }
 
-},30);
+},25);
 }
+
 </script>
 
 </body>
